@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://172.16.11.183:8080/md/ppt.md#10 -->
+<html><script data-x-lastpass="">(function(){var c=0;if("undefined"!==typeof CustomEvent&&"function"===typeof window.dispatchEvent){var a=function(a){try{if("object"===typeof a&&(a=JSON.stringify(a)),"string"===typeof a)return window.dispatchEvent(new CustomEvent("lprequeststart",{detail:{data:a,requestID:++c}})),c}catch(f){}},b=function(a){try{window.dispatchEvent(new CustomEvent("lprequestend",{detail:a}))}catch(f){}};"undefined"!==typeof XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.send&&(XMLHttpRequest.prototype.send=
+function(c){return function(f){var d=this,e=a(f);e&&d.addEventListener("loadend",function(){b({requestID:e,statusCode:d.status})});return c.apply(d,arguments)}}(XMLHttpRequest.prototype.send));"function"===typeof fetch&&(fetch=function(c){return function(f,d){var e=a(d),g=c.apply(this,arguments);if(e){var h=function(a){b({requestID:e,statusCode:a&&a.status})};g.then(h)["catch"](h)}return g}}(fetch))}})();
+(function(){if("undefined"!==typeof CustomEvent){var c=function(a){if(a.lpsubmit)return a;var b=function(){try{this.dispatchEvent(new CustomEvent("lpsubmit"))}catch(k){}return a.apply(this,arguments)};b.lpsubmit=!0;return b};window.addEventListener("DOMContentLoaded",function(){if(document&&document.forms&&0<document.forms.length)for(var a=0;a<document.forms.length;++a)document.forms[a].submit=c(document.forms[a].submit)},!0);document.createElement=function(a){return function(){var b=a.apply(this,
+arguments);b&&"FORM"===b.nodeName&&b.submit&&(b.submit=c(b.submit));return b}}(document.createElement)}})();
+</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>jdk8一些新特性介绍 - By 汪萌萌</title>
+    <link rel="stylesheet" media="all" href="./jdk8一些新特性介绍 - By 汪萌萌_files/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./jdk8一些新特性介绍 - By 汪萌萌_files/phone.css">
+    
+    <link rel="stylesheet" href="./jdk8一些新特性介绍 - By 汪萌萌_files/monokai_sublime.css">
+    <link rel="stylesheet" href="./jdk8一些新特性介绍 - By 汪萌萌_files/font-awesome.css">
+    
+<link rel="stylesheet" href="./jdk8一些新特性介绍 - By 汪萌萌_files/theme.moon.css">
+<style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+<body style="opacity: 1;">
+<div class="slides">
+    <slides id="container">
+        <slide class="slide fill" style="background-image:url(&#39;/img/java.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>jdk8一些新特性介绍</h1>
+<h2>演讲者：汪萌萌</h2>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>主要介绍jdk8以下特性</h2>
+<ul class="moveIn flexbox vleft">
+<li class="builded" data-index="0">Lambda表达式和函数式接口</li>
+<li class="builded" data-index="1">Stream</li>
+<li class="builded" data-index="2">CompletableFuture</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/lambda.jpg&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>Lambda表达式和函数式接口</h2>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p>Java Lambda 表达式是 Java 8 引入的一个新的功能，可以说是模拟函数式编程的一个语法糖，类似于 Javascript 中的闭包，但又有些不同，主要目的是提供一个函数化的语法来简化我们的编码。Lambda表达式基于数学中的λ演算得名.</p>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p>Lambda 的基本结构为 <code>(arguments) -&gt; body</code>，有如下几种情况：</p>
+<ul>
+<li>参数类型可推导时，不需要指定类型，如 <code>(a) -&gt; System.out.println(a)</code></li>
+<li>当只有一个参数且类型可推导时，不强制写 (), 如 <code>a -&gt; System.out.println(a)</code></li>
+<li>参数指定类型时，必须有括号，如 <code>(int a) -&gt; System.out.println(a)</code></li>
+<li>参数可以为空，如 () -&gt; <code>System.out.println(“hello”)</code></li>
+<li>body 需要用 {} 包含语句，当只有一条语句时 {} 可省略</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>函数式接口:</h2>
+<p>我们把这些只拥有一个方法的接口称为函数式接口。（之前它们被称为SAM类型，即单抽象方法类型（Single Abstract Method））,编译器会根据接口的结构自行判断（判断过程并非简单的对接口方法计数：一个接口可能冗余的定义了一个<code>Object</code>已经提供的方法，比如toString()，或者定义了静态方法或默认方法，这些都不属于函数式接口方法的范畴）。不过API作者们可以通过<code>@FunctionalInterface</code>注解来显式指定一个接口是函数式接口，加上这个注解之后，编译器就会验证该接口是否满足函数式接口的要求。</p>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p>如:<code>Runnable</code>
+一般情况下我们可以通过以下方式创建一个<code>Runnable</code>类型的对象</p>
+<pre><code class="java hljs">Runnable runnable1=<span class="hljs-keyword">new</span> Runnable() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+                System.out.println(<span class="hljs-number">1</span>);
+            }
+        };
+</code></pre>
+<p>通过<code>Lambda</code>表达式:</p>
+<pre><code class="java hljs">Runnable runnable= () -&gt; System.out.println(<span class="hljs-number">1</span>);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p>同理还有<code>Comparator</code>,如创建一个按照数字从大到小的逆序比较器
+一般情况:</p>
+<pre><code class="java hljs">Comparator&lt;Integer&gt; comparator = <span class="hljs-keyword">new</span> Comparator&lt;Integer&gt;() {
+            <span class="hljs-annotation">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Integer o1, Integer o2)</span> </span>{
+                <span class="hljs-keyword">return</span> o2-o1;
+            }
+        };
+</code></pre>
+<p><code>Lambda</code>表达式:</p>
+<pre><code class="java hljs">Comparator&lt;Integer&gt; comparator = (o1,o2)-&gt;o2-o1;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide fill pagedown far-past" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p>Java SE 8中增加了一个新的包：<code>java.util.function</code>，它里面包含了常用的函数式接口，例如：</p>
+<ul>
+<li><code>Predicate&lt;T&gt;</code>——接收<code>T</code>对象并返回<code>boolean</code></li>
+<li><code>Consumer&lt;T&gt;</code>——接收<code>T</code>对象，不返回值</li>
+<li><code>Function&lt;T, R&gt;</code>——接收<code>T</code>对象，返回<code>R</code>对象</li>
+<li><code>Supplier&lt;T&gt;</code>——提供<code>T</code>对象（例如工厂），不接收值</li>
+<li><code>UnaryOperator&lt;T&gt;</code>——接收<code>T</code>对象，返回<code>T</code>对象</li>
+<li><code>BinaryOperator&lt;T&gt;</code>——接收两个<code>T</code>对象，返回<code>T</code>对象</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide fill pagedown past" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>Stream流</h2>
+<p>大家可以把Stream当成一个高级版本的Iterator。原始版本的Iterator，用户只能一个一个的遍历元素并对其执行某些操作；高级版本的Stream，用户只要给出需要对其包含的元素执行什么操作，比如“过滤掉长度大于10的字符串”、“获取每个字符串的首字母”等，具体这些操作如何应用到每个元素上，就给Stream就好了！</p>
+
+</article></section></slide>
+<slide class="slide fill pagedown current" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>Stream的构建</h2>
+<ul class="moveIn flexbox vleft">
+<li class="building" data-index="0">Collection.stream()</li>
+<li class="tobuild" data-index="1">Collection.parallelStream()</li>
+<li class="tobuild" data-index="2">Arrays.stream(T array)</li>
+<li class="tobuild" data-index="3">Stream.of()</li>
+<li class="tobuild" data-index="4">Stream.generate()</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide fill pagedown next" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>Stream的常用操作</h2>
+<p class="flexbox vleft"><span>现有数组<code>list</code>: <span></span></span></p>
+<pre><code class="java hljs">List&lt;Integer&gt; list = Arrays.asList(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>,<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>,<span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>);
+</code></pre>
+<p class="flexbox vleft">元素排序</p>
+<blockquote>
+<p class="flexbox vleft"><span>对于Stream中包含的元素进行排序,需指定排序规则,即自定义<code>Comparator</code>  <span></span></span></p>
+<pre><code class="java hljs">List&lt;Integer&gt; sort=list.stream()
+                .sorted((o1, o2) -&gt; o2 - o1)
+                .collect(Collectors.toList());
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs json">[<span class="hljs-number">8</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>]
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill far-next pagedown" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p class="flexbox vleft">元素转换 </p>
+<blockquote>
+<p class="flexbox vleft">对于Stream中包含的元素使用给定的转换函数进行转换操作，新生成的Stream只包含转换生成的元素。</p>
+<pre><code class="java hljs">List&lt;Integer&gt; map=list.stream()
+                .map(o1-&gt;o1*<span class="hljs-number">10</span>)
+                .collect(Collectors.toList());
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs json">[<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>, <span class="hljs-number">60</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>]
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p class="flexbox vleft">元素过滤 </p>
+<blockquote>
+<p class="flexbox vleft">filter: 对于Stream中包含的元素使用给定的过滤函数进行过滤操作，新生成的Stream只包含符合条件的元素；</p>
+<pre><code class="java hljs">List&lt;Integer&gt; filter=list.stream()
+                .filter((o1)-&gt;o1&gt;<span class="hljs-number">4</span>)
+                .collect(Collectors.toList());
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs json">[<span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>]
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p class="flexbox vleft">元素截取 </p>
+<blockquote>
+<p class="flexbox vleft">对一个Stream进行截断操作，获取其前N个元素，如果原Stream中包含的元素个数小于N，那就获取其所有的元素； </p>
+<pre><code class="java hljs">List&lt;Integer&gt; limit=list.stream()
+                .limit(<span class="hljs-number">3</span>)
+                .collect(Collectors.toList());
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs json">[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>]
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p class="flexbox vleft">元素去重 </p>
+<blockquote>
+<p class="flexbox vleft">distinct: 对于Stream中包含的元素进行去重操作（去重逻辑依赖元素的equals方法），新生成的Stream中没有重复的元素；</p>
+<pre><code class="java hljs">List&lt;Integer&gt; distinct=list.stream()
+                .distinct()
+                .collect(Collectors.toList());
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs json">[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>]
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p class="flexbox vleft">元素聚合 </p>
+<blockquote>
+<p class="flexbox vleft">接受一个元素序列为输入，反复使用某个合并操作，把序列中的元素合并成一个汇总的结果。 </p>
+<pre><code class="java hljs">Integer reduce=list.stream()
+                .reduce((o1,o2)-&gt;o1+o2)
+                .get();
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs cpp"><span class="hljs-number">43</span>
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<p class="flexbox vleft">元素遍历 </p>
+<blockquote>
+<p>这就不用介绍了吧^_^</p>
+<pre><code class="java hljs">ist.stream()
+                .forEach(System.out::println);
+</code></pre>
+<p class="flexbox vleft">结果 </p>
+<pre><code class="hljs cpp"><span class="hljs-number">1</span>
+<span class="hljs-number">2</span>
+<span class="hljs-number">2</span>
+<span class="hljs-number">3</span>
+<span class="hljs-number">4</span>
+<span class="hljs-number">5</span>
+<span class="hljs-number">5</span>
+<span class="hljs-number">6</span>
+<span class="hljs-number">7</span>
+<span class="hljs-number">8</span>
+</code></pre></blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture</h2>
+<p>CompletableFuture是jdk8中新增的一个用来处理异步回调的类.</p>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2 class="flexbox vleft">CompletableFuture的创建  </h2>
+<pre><code class="java hljs"><span class="hljs-keyword">static</span> &lt;U&gt; <span class="hljs-function">CompletableFuture&lt;U&gt; <span class="hljs-title">supplyAsync</span><span class="hljs-params">(Supplier&lt;U&gt; supplier)</span></span>;
+<span class="hljs-keyword">static</span> &lt;U&gt; <span class="hljs-function">CompletableFuture&lt;U&gt; <span class="hljs-title">supplyAsync</span><span class="hljs-params">(Supplier&lt;U&gt; supplier, Executor executor)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">static</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">runAsync</span><span class="hljs-params">(Runnable runnable)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">static</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">runAsync</span><span class="hljs-params">(Runnable runnable, Executor executor)</span></span>;
+</code></pre>
+<blockquote>
+<p>其中<code>&lt;U&gt;</code>表示有返回值类型,<code>&lt;Void&gt;</code>表示无返回值类型
+ 参数有Executor,表示可以使用线程池中的线程进行异步调用.</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture计算完成时的处理</h2>
+<pre><code class="java hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> CompletableFuture&lt;T&gt;     <span class="hljs-title">whenComplete</span><span class="hljs-params">(BiConsumer&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">super</span> Throwable&gt; action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;T&gt;     <span class="hljs-title">whenCompleteAsync</span><span class="hljs-params">(BiConsumer&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">super</span> Throwable&gt; action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;T&gt;     <span class="hljs-title">whenCompleteAsync</span><span class="hljs-params">(BiConsumer&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">super</span> Throwable&gt; action, Executor executor)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;T&gt;     <span class="hljs-title">exceptionally</span><span class="hljs-params">(Function&lt;Throwable,? extends T&gt; fn)</span>
+</span></code></pre>
+<blockquote>
+<p class="flexbox vleft">可以看到Action的类型是BiConsumer&lt;? super T,? super Throwable&gt;，它可以处理正常的计算结果，或者异常情况。
+方法不以Async结尾，意味着Action使用相同的线程执行，而Async可能会使用其它的线程去执行(如果使用相同的线程池，也可能会被同一个线程选中执行)。
+注意这几个方法都会返回CompletableFuture，当Action执行完毕后它的结果返回原始的CompletableFuture的计算结果或者返回异常。</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture的转换</h2>
+<pre><code class="hljs dart">&lt;U&gt; CompletableFuture&lt;U&gt; thenApply(<span class="hljs-built_in">Function</span>&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">extends</span> U&gt; fn);
+&lt;U&gt; CompletableFuture&lt;U&gt; thenApplyAsync(<span class="hljs-built_in">Function</span>&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">extends</span> U&gt; fn);
+&lt;U&gt; CompletableFuture&lt;U&gt; thenApplyAsync(<span class="hljs-built_in">Function</span>&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">extends</span> U&gt; fn, Executor executor);
+</code></pre><blockquote>
+<p class="flexbox vleft"><span>我们可以在有返回值类型的<code>CompletableFuture</code>执行完成后,将其返回值作为参数,通过<code>thenApply</code>继续进行下一步操作.以上三个方法的区别是,第一个会在前一个<code>CompletableFuture</code>相同的线程中执行,后面两个则是继续异步执行.<br>需要注意的是，这些转换并不是马上执行的，也不会阻塞，而是在前一个stage完成后继续执行。 <span></span></span></p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture纯消费型</h2>
+<pre><code class="java hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">thenAccept</span><span class="hljs-params">(Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">thenAcceptAsync</span><span class="hljs-params">(Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">thenAcceptAsync</span><span class="hljs-params">(Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; action, Executor executor)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">thenRun</span><span class="hljs-params">(Runnable action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title">thenRunAsync</span><span class="hljs-params">(Runnable action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt;    <span class="hljs-title">thenRunAsync</span><span class="hljs-params">(Runnable action, Executor executor)</span>
+</span></code></pre>
+<blockquote>
+<p class="flexbox vleft">上面的方法是当计算完成的时候，会生成新的计算结果(thenApply, handle)，或者返回同样的计算结果whenComplete，CompletableFuture还提供了一种处理结果的方法，只对结果执行Action,而不返回新的计算值，因此计算值为Void.  面一组方法当计算完成的时候会执行一个Runnable,与thenAccept不同，Runnable并不使用CompletableFuture计算的结果。</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture组合</h2>
+<pre><code class="java hljs"><span class="hljs-keyword">public</span> &lt;U&gt; <span class="hljs-function">CompletableFuture&lt;U&gt;     <span class="hljs-title">thenCompose</span><span class="hljs-params">(Function&lt;? <span class="hljs-keyword">super</span> T,? extends CompletionStage&lt;U&gt;&gt; fn)</span>
+<span class="hljs-keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt;     <span class="hljs-title">thenComposeAsync</span><span class="hljs-params">(Function&lt;? <span class="hljs-keyword">super</span> T,? extends CompletionStage&lt;U&gt;&gt; fn)</span>
+<span class="hljs-keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt;     <span class="hljs-title">thenComposeAsync</span><span class="hljs-params">(Function&lt;? <span class="hljs-keyword">super</span> T,? extends CompletionStage&lt;U&gt;&gt; fn, Executor executor)</span>
+</span></code></pre>
+<blockquote>
+<p>输入为前一个CompletableFuture的结果,但是返回值必须是一个有返回值的CompletableFuture操作  {:.flexbox.vleft}
+例如一下代码,返回值为<code>CompletableFuture.supplyAsync(()-&gt;i*10)</code></p>
+<pre><code class="java hljs">CompletableFuture&lt;Integer&gt; completableFuture = CompletableFuture.supplyAsync(() -&gt; <span class="hljs-number">10</span>);
+        CompletableFuture&lt;Integer&gt; f2=completableFuture
+                .thenCompose(i-&gt;CompletableFuture.supplyAsync(()-&gt;i*<span class="hljs-number">10</span>));
+</code></pre>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<pre><code class="java hljs"><span class="hljs-keyword">public</span> &lt;U,V&gt; <span class="hljs-function">CompletableFuture&lt;V&gt;     <span class="hljs-title">thenCombine</span><span class="hljs-params">(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">super</span> U,? extends V&gt; fn)</span>
+<span class="hljs-keyword">public</span> &lt;U,V&gt; CompletableFuture&lt;V&gt;     <span class="hljs-title">thenCombineAsync</span><span class="hljs-params">(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">super</span> U,? extends V&gt; fn)</span>
+<span class="hljs-keyword">public</span> &lt;U,V&gt; CompletableFuture&lt;V&gt;     <span class="hljs-title">thenCombineAsync</span><span class="hljs-params">(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? <span class="hljs-keyword">super</span> T,? <span class="hljs-keyword">super</span> U,? extends V&gt; fn, Executor executor)</span>
+</span></code></pre>
+<blockquote>
+<p class="flexbox vleft">而上面的一组方法thenCombine用来组合另外一个CompletionStage的结果。它的功能类似：两个CompletionStage是并行执行的，它们之间并没有先后依赖顺序，other并不会等待先前的CompletableFuture执行完毕后再执行  </p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture 两个中任意一个完成</h2>
+<pre><code class="java hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt;     <span class="hljs-title">acceptEither</span><span class="hljs-params">(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt;     <span class="hljs-title">acceptEitherAsync</span><span class="hljs-params">(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; action)</span>
+<span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt;     <span class="hljs-title">acceptEitherAsync</span><span class="hljs-params">(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; action, Executor executor)</span>
+<span class="hljs-keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt;     <span class="hljs-title">applyToEither</span><span class="hljs-params">(CompletionStage&lt;? extends T&gt; other, Function&lt;? <span class="hljs-keyword">super</span> T,U&gt; fn)</span>
+<span class="hljs-keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt;     <span class="hljs-title">applyToEitherAsync</span><span class="hljs-params">(CompletionStage&lt;? extends T&gt; other, Function&lt;? <span class="hljs-keyword">super</span> T,U&gt; fn)</span>
+<span class="hljs-keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt;     <span class="hljs-title">applyToEitherAsync</span><span class="hljs-params">(CompletionStage&lt;? extends T&gt; other, Function&lt;? <span class="hljs-keyword">super</span> T,U&gt; fn, Executor executor)</span>
+</span></code></pre>
+<blockquote>
+<p class="flexbox vleft"><span>acceptEither方法是当任意一个CompletionStage完成的时候，action这个消费者就会被执行。这个方法返回CompletableFuture<void>   <span></span></void></span></p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/java8.png&#39;)" data-transition="cards"><section class="slide-wrapper"><article>
+<h2>CompletableFuture 多个任务</h2>
+<pre><code class="java hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CompletableFuture&lt;Void&gt;   <span class="hljs-title">allOf</span><span class="hljs-params">(CompletableFuture&lt;?&gt;... cfs)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CompletableFuture&lt;Object&gt;  <span class="hljs-title">anyOf</span><span class="hljs-params">(CompletableFuture&lt;?&gt;... cfs)</span>
+</span></code></pre>
+<blockquote>
+<p class="flexbox vleft">allOf方法是当所有的CompletableFuture都执行完后执行计算。
+anyOf方法是当任意一个CompletableFuture执行完后就会执行计算，计算的结果相同。   </p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide fill" style="background-image:url(&#39;/img/thanks.jpg&#39;)" data-transition="cards"><section class="slide-wrapper"></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodePPT v1.4.2</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700" style="display: none;"></canvas>
+<div class="progress"><span id="progress" style="width: 39.2857%;"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar" data-toggle="fa fa-close"></button>
+</div>
+<script src="./jdk8一些新特性介绍 - By 汪萌萌_files/mix.0.3.0.min.js.下载"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+MixJS.config({
+    baseURL: [ base, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./jdk8一些新特性介绍 - By 汪萌萌_files/broadcast.js.下载"></script>
+<script src="./jdk8一些新特性介绍 - By 汪萌萌_files/nodeppt.js.下载"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'cards',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+<script src="./jdk8一些新特性介绍 - By 汪萌萌_files/demo.js.下载"></script>
+<link rel="stylesheet" href="./jdk8一些新特性介绍 - By 汪萌萌_files/demo.css">
+
+<!--placeholder-->
+
+
+<div class="img-full transparent"></div></body></html>
