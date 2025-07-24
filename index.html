@@ -1,424 +1,579 @@
-<!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE HTML>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <title>一緒に私たちの時間</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <meta name="keywords" content="一緒に私たちの時間"/>
-    <audio autoplay preload="auto" loop="" id="audio">该浏览器不支持audio属性
-        <source src="music/KinKi Kids - Anniversary.mp3" type="audio/mp3"/>
-    </audio>
-    <link rel="shortcut icon" href="images/favicon.ico"/>
-	
-    <!-- bootstrap-css -->
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <script src="js/jquery.min.js"></script>
-	<script src="./js/L2Dwidget.min.js"></script>
-	<script>
-	L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的时光轴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-	<script type="text/javascript" src="./js/love.js"></script>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            background-image: url('images/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay; /* 添加背景混合模式 */
+            background-color: rgba(255,211,225, 0.7); /* 调整背景透明度 */
+        }
 
-    <!-- Custom Theme files -->
-    <link href="css/style.css" rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="css/jquery.countdown.css"/>
-    <!-- font-awesome icons -->
-    <link href="css/font-awesome.css" rel="stylesheet">
-    <!-- //font-awesome icons -->
-    <!--fonts-->
-    <link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300'
-          rel='stylesheet' type='text/css'>
-    <!--//fonts-->
-    <link rel="stylesheet" href="css/owl.carousel.css" type="text/css" media="all">
-    <link href="css/owl.theme.css" rel="stylesheet">
-    <script>
-        $(document).ready(function () {
-            $("#owl-demo").owlCarousel({
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: -1;
+        }
 
-                autoPlay: 3000, //Set AutoPlay to 3 seconds
-                autoPlay: true,
-                items: 4,
-                itemsDesktop: [640, 5],
-                itemsDesktopSmall: [414, 4]
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-            });
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
 
-        });
-    </script>
+        .together-time {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
 
+        .together-label {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .time-display {
+            font-size: 1.8rem;
+            color: #e91e63;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #ff6b6b, #4ecdc4);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            padding-right: calc(50% + 30px);
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            padding-left: calc(50% + 30px);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 4px solid #e91e63;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #e91e63;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .timeline-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-image:hover {
+            transform: scale(1.05);
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff6b6b;
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .music-control:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding: 0 0 0 70px;
+                text-align: left;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+
+            .together-time {
+                font-size: 2rem;
+            }
+
+            .time-display {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<!-- banner -->
-<div class="agileits-banner-info jarallax">
-    <div class="banner-dot">
-        <div class="w3-banner-grids">
-            <div class="col-md-6 w3l-banner-left">
-                <h1><a href="#"> <span>因为我太过美好，因为你太过美丽，</span><span>恋爱之神会把通往未来的钥匙从云的缝隙中为我们放下，所以放心吧，</span><span>相信自己，相信我!</span></a>
-                </h1>
-            </div>
-            <div class="col-md-6 banner-right">
-                <div class="banner-right-info">
-                    <p>一緒に私たちの時間</p>
-                </div>
-                <!--timer-->
-                <div class="agileits-timer">
-                    <div class="clock">
-                        <div class="column days">
-                            <div class="timer" id="days"></div>
-                            <div class="text">Days</div>
-                        </div>
-                        <div class="column">
-                            <div class="timer" id="hours"></div>
-                            <div class="text">Hours</div>
-                        </div>
-                        <div class="timer"></div>
-                        <div class="column">
-                            <div class="timer" id="minutes"></div>
-                            <div class="text">Minutes</div>
-                        </div>
-                        <div class="timer"></div>
-                        <div class="column">
-                            <div class="timer" id="seconds"></div>
-                            <div class="text">Seconds</div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <!--//timer-->
-                <!--newsletter-->
+<div class="container">
+    <div class="header">
+        <h1>💕 我们的美好时光 💕</h1>
+        <div class="together-label">在一起的时光</div>
+        <div class="time-display" id="togetherTime">加载中...</div>
+    </div>
 
-                <!--//newsletter-->
-            </div>
-            <div class="clearfix"></div>
-        </div>
+    <div class="timeline" id="timeline">
+        <!-- 时光轴内容将通过JavaScript动态生成 -->
     </div>
 </div>
-<!-- //copyright -->
-<!--scripts-->
-<script type="text/javascript" src=" js/moment.js"></script>
-<script type="text/javascript" src=" js/moment-timezone-with-data.js"></script>
-<script type="text/javascript" src="js/timer.js"></script>
-<!--//scripts-->
-<!-- jarallax -->
-<script src="js/jarallax.js"></script>
-<script src="js/SmoothScroll.min.js"></script>
-<script type="text/javascript">
-    /* init Jarallax */
-    $('.jarallax').jarallax({
-        speed: 0.5,
-        imgWidth: 1366,
-        imgHeight: 768
-    })
-</script>
-<!-- //jarallax -->
-<!-- here stars scrolling icon -->
-<script type="text/javascript" src="js/move-top.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        /*
-            var defaults = {
-            containerID: 'toTop', // fading element id
-            containerHoverID: 'toTopHover', // fading element hover id
-            scrollSpeed: 1200,
-            easingType: 'linear'
-            };
-        */
 
-        $().UItoTop({easingType: 'easeOutQuart'});
+<div class="music-control" id="musicControl">🎵</div>
 
-    });
-</script>
-
-<!-- //here ends scrolling icon -->
-<!-- team -->
-<script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $(".scroll").click(function (event) {
-            event.preventDefault();
-            $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
-        });
-    });
-</script>
-<script src="js/owl.carousel.js"></script>
-<div id="love-2d" height="0">
-<canvas id="pinkboard" width="1920" height="1045" style="position: fixed; opacity: 0.7; left: 0px; bottom: -20px; z-index: 99999; pointer-events: none;">
-</canvas>
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
 </div>
+
+<audio id="backgroundMusic" loop>
+    <source src="music/bg.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 引入l2dwidget库 -->
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.0.4/lib/L2Dwidget.min.js"></script>
 <script>
-    /*
-     * Settings
-     */
-    var settings = {
-        particles: {
-            length: 500, // maximum amount of particles
-            duration: 2, // particle duration in sec
-            velocity: 100, // particle velocity in pixels/sec
-            effect: -0.75, // play with this for a nice effect
-            size: 30, // particle size in pixels
+    // 初始化Live2D看板娘
+    L2Dwidget.init({
+        model: {
+            jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json",
+            scale: 1
         },
+        display: {
+            position: "right",
+            width: 150,
+            height: 300,
+            hOffset: 20,
+            vOffset: -20
+        },
+        mobile: {
+            show: true
+        },
+        react: {
+            opacityDefault: 0.7,
+            opacityOnHover: 0.2
+        }
+    });
+
+    // 创建飘动的爱心
+    function createFloatingHearts() {
+        const heartCount = 20;
+        const container = document.body;
+
+        for (let i = 0; i < heartCount; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+
+                // 随机位置
+                const startX = Math.random() * window.innerWidth;
+                heart.style.left = `${startX}px`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+
+                container.appendChild(heart);
+
+                // 动画结束后移除
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, i * 300);
+        }
+    }
+
+    // 默认配置（如果无法加载外部配置文件）
+    const defaultConfig = {
+        togetherDate: "2020-01-01 00:00:00",
+        milestones: [
+            {
+                date: "2020-01-01",
+                title: "初次相遇",
+                description: "那是一个美好的开始，从此我们的生命交织在一起",
+                image: "meeting.jpg"
+            },
+            {
+                date: "2020-05-20",
+                title: "第一次约会",
+                description: "在那个浪漫的日子里，我们正式开始了恋爱之旅",
+                image: "first_date.jpg"
+            },
+            {
+                date: "2021-02-14",
+                title: "第一个情人节",
+                description: "粉色的玫瑰和甜蜜的巧克力，见证了我们的爱情",
+                image: "valentine.jpg"
+            },
+            {
+                date: "2021-10-01",
+                title: "第一次旅行",
+                description: "手牵手走过山川湖海，留下最美的回忆",
+                image: "travel.jpg"
+            },
+            {
+                date: "2022-06-15",
+                title: "重要的纪念日",
+                description: "这一天对我们来说意义非凡，永远铭记在心",
+                image: "special_day.jpg"
+            }
+        ]
     };
 
-    /*
-     * RequestAnimationFrame polyfill by Erik M?ller
-     */
-    (function () {
-        var b = 0;
-        var c = ["ms", "moz", "webkit", "o"];
-        for (var a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
-            window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
-            window.cancelAnimationFrame = window[c[a] + "CancelAnimationFrame"] || window[c[a] + "CancelRequestAnimationFrame"]
+    // 加载配置文件
+    async function loadConfig() {
+        try {
+            const response = await fetch('config.json');
+            if (response.ok) {
+                return await response.json();
+            } else {
+                throw new Error('配置文件加载失败');
+            }
+        } catch (error) {
+            console.warn('无法加载config.json，使用默认配置:', error);
+            return defaultConfig;
         }
-        if (!window.requestAnimationFrame) {
-            window.requestAnimationFrame = function (h, e) {
-                var d = new Date().getTime();
-                var f = Math.max(0, 16 - (d - b));
-                var g = window.setTimeout(function () {
-                    h(d + f)
-                }, f);
-                b = d + f;
-                return g
+    }
+
+    // 计算在一起的时间（年月日时分秒格式）
+    function calculateTogetherTime(startDate) {
+        const start = new Date(startDate);
+        const now = new Date();
+
+        const diff = now - start;
+
+        const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+        const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+        const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        return `${years}年${months}月${days}日${hours}时${minutes}分${seconds}秒`;
+    }
+
+    // 更新在一起时间显示
+    function updateTogetherTime(startDate) {
+        const timeDisplay = document.getElementById('togetherTime');
+        timeDisplay.textContent = calculateTogetherTime(startDate);
+    }
+
+    // 图片放大功能
+    function setupImageModal() {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+
+        // 点击图片放大
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('timeline-image')) {
+                modal.style.display = 'block';
+                modalImg.src = e.target.src;
+                document.body.style.overflow = 'hidden';
             }
-        }
-        if (!window.cancelAnimationFrame) {
-            window.cancelAnimationFrame = function (d) {
-                clearTimeout(d)
-            }
-        }
-    }());
+        });
 
-    /*
-     * Point class
-     */
-    var Point = (function () {
-        function Point(x, y) {
-            this.x = (typeof x !== 'undefined') ? x : 0;
-            this.y = (typeof y !== 'undefined') ? y : 0;
-        }
-
-        Point.prototype.clone = function () {
-            return new Point(this.x, this.y);
+        // 关闭模态框
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         };
-        Point.prototype.length = function (length) {
-            if (typeof length == 'undefined')
-                return Math.sqrt(this.x * this.x + this.y * this.y);
-            this.normalize();
-            this.x *= length;
-            this.y *= length;
-            return this;
-        };
-        Point.prototype.normalize = function () {
-            var length = this.length();
-            this.x /= length;
-            this.y /= length;
-            return this;
-        };
-        return Point;
-    })();
 
-    /*
-     * Particle class
-     */
-    var Particle = (function () {
-        function Particle() {
-            this.position = new Point();
-            this.velocity = new Point();
-            this.acceleration = new Point();
-            this.age = 0;
-        }
-
-        Particle.prototype.initialize = function (x, y, dx, dy) {
-            this.position.x = x;
-            this.position.y = y;
-            this.velocity.x = dx;
-            this.velocity.y = dy;
-            this.acceleration.x = dx * settings.particles.effect;
-            this.acceleration.y = dy * settings.particles.effect;
-            this.age = 0;
-        };
-        Particle.prototype.update = function (deltaTime) {
-            this.position.x += this.velocity.x * deltaTime;
-            this.position.y += this.velocity.y * deltaTime;
-            this.velocity.x += this.acceleration.x * deltaTime;
-            this.velocity.y += this.acceleration.y * deltaTime;
-            this.age += deltaTime;
-        };
-        Particle.prototype.draw = function (context, image) {
-            function ease(t) {
-                return (--t) * t * t + 1;
-            }
-
-            var size = image.width * ease(this.age / settings.particles.duration);
-            context.globalAlpha = 1 - this.age / settings.particles.duration;
-            context.drawImage(image, this.position.x - size / 2, this.position.y - size / 2, size, size);
-        };
-        return Particle;
-    })();
-
-    /*
-     * ParticlePool class
-     */
-    var ParticlePool = (function () {
-        var particles,
-            firstActive = 0,
-            firstFree = 0,
-            duration = settings.particles.duration;
-
-        function ParticlePool(length) {
-            // create and populate particle pool
-            particles = new Array(length);
-            for (var i = 0; i < particles.length; i++)
-                particles[i] = new Particle();
-        }
-
-        ParticlePool.prototype.add = function (x, y, dx, dy) {
-            particles[firstFree].initialize(x, y, dx, dy);
-
-            // handle circular queue
-            firstFree++;
-            if (firstFree == particles.length) firstFree = 0;
-            if (firstActive == firstFree) firstActive++;
-            if (firstActive == particles.length) firstActive = 0;
-        };
-        ParticlePool.prototype.update = function (deltaTime) {
-            var i;
-
-            // update active particles
-            if (firstActive < firstFree) {
-                for (i = firstActive; i < firstFree; i++)
-                    particles[i].update(deltaTime);
-            }
-            if (firstFree < firstActive) {
-                for (i = firstActive; i < particles.length; i++)
-                    particles[i].update(deltaTime);
-                for (i = 0; i < firstFree; i++)
-                    particles[i].update(deltaTime);
-            }
-
-            // remove inactive particles
-            while (particles[firstActive].age >= duration && firstActive != firstFree) {
-                firstActive++;
-                if (firstActive == particles.length) firstActive = 0;
-            }
-
-
-        };
-        ParticlePool.prototype.draw = function (context, image) {
-            // draw active particles
-            if (firstActive < firstFree) {
-                for (i = firstActive; i < firstFree; i++)
-                    particles[i].draw(context, image);
-            }
-            if (firstFree < firstActive) {
-                for (i = firstActive; i < particles.length; i++)
-                    particles[i].draw(context, image);
-                for (i = 0; i < firstFree; i++)
-                    particles[i].draw(context, image);
+        // 点击模态框背景关闭
+        modal.onclick = function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         };
-        return ParticlePool;
-    })();
 
-    /*
-     * Putting it all together
-     */
-    (function (canvas) {
-        var context = canvas.getContext('2d'),
-            particles = new ParticlePool(settings.particles.length),
-            particleRate = settings.particles.length / settings.particles.duration, // particles/sec
-            time;
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 
-        // get point on heart with -PI <= t <= PI
-        function pointOnHeart(t) {
-            return new Point(
-                160 * Math.pow(Math.sin(t), 3),
-                130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
-            );
+    // 音乐控制
+    function setupMusicControl() {
+        const musicControl = document.getElementById('musicControl');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        let isPlaying = false;
+
+        musicControl.addEventListener('click', function() {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicControl.textContent = '🎵';
+                isPlaying = false;
+            } else {
+                backgroundMusic.play().catch(e => {
+                    console.log('自动播放被阻止，需要用户交互');
+                    // 显示提示用户点击页面任意位置播放音乐
+                    const playHint = document.createElement('div');
+                    playHint.style.position = 'fixed';
+                    playHint.style.top = '50%';
+                    playHint.style.left = '50%';
+                    playHint.style.transform = 'translate(-50%, -50%)';
+                    playHint.style.background = 'rgba(0,0,0,0.8)';
+                    playHint.style.color = 'white';
+                    playHint.style.padding = '20px';
+                    playHint.style.borderRadius = '10px';
+                    playHint.style.zIndex = '3000';
+                    playHint.textContent = '点击任意位置开始播放背景音乐';
+                    document.body.appendChild(playHint);
+
+                    document.body.addEventListener('click', function playMusic() {
+                        backgroundMusic.play();
+                        musicControl.textContent = '⏸';
+                        isPlaying = true;
+                        playHint.remove();
+                        document.body.removeEventListener('click', playMusic);
+                    }, { once: true });
+                });
+                musicControl.textContent = '⏸';
+                isPlaying = true;
+            }
+        });
+    }
+
+    // 创建时光轴项目
+    function createTimelineItem(milestone, index) {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+
+        let imageHtml = '';
+        if (milestone.image) {
+            imageHtml = `<img src="images/${milestone.image}" alt="${milestone.title}" class="timeline-image" onerror="this.style.display='none'">`;
         }
 
-        // creating the particle image using a dummy canvas
-        var image = (function () {
-            var canvas = document.createElement('canvas'),
-                context = canvas.getContext('2d');
-            canvas.width = settings.particles.size;
-            canvas.height = settings.particles.size;
+        item.innerHTML = `
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">${milestone.date}</div>
+                    <div class="timeline-title">${milestone.title}</div>
+                    <div class="timeline-description">${milestone.description}</div>
+                    ${imageHtml}
+                </div>
+            `;
 
-            // helper function to create the path
-            function to(t) {
-                var point = pointOnHeart(t);
-                point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
-                point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
-                return point;
-            }
+        return item;
+    }
 
-            // create the path
-            context.beginPath();
-            var t = -Math.PI;
-            var point = to(t);
-            context.moveTo(point.x, point.y);
-            while (t < Math.PI) {
-                t += 0.01; // baby steps!
-                point = to(t);
-                context.lineTo(point.x, point.y);
-            }
-            context.closePath();
-            // create the fill
-            context.fillStyle = '#ea80b0';
-            context.fill();
-            // create the image
-            var image = new Image();
-            image.src = canvas.toDataURL();
-            return image;
-        })();
+    // 渲染时光轴
+    function renderTimeline(config) {
+        const timeline = document.getElementById('timeline');
+        timeline.innerHTML = '';
 
-        // render that thing!
-        function render() {
-            // next animation frame
-            requestAnimationFrame(render);
+        config.milestones.forEach((milestone, index) => {
+            const item = createTimelineItem(milestone, index);
+            timeline.appendChild(item);
+        });
+    }
 
-            // update time
-            var newTime = new Date().getTime() / 1000,
-                deltaTime = newTime - (time || newTime);
-            time = newTime;
+    // 主函数
+    async function main() {
+        const config = await loadConfig();
 
-            // clear canvas
-            context.clearRect(0, 0, canvas.width, canvas.height);
+        // 初始化在一起时间显示
+        updateTogetherTime(config.togetherDate);
 
-            // create new particles
-            var amount = particleRate * deltaTime;
-            for (var i = 0; i < amount; i++) {
-                var pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random());
-                var dir = pos.clone().length(settings.particles.velocity);
-                particles.add(canvas.width / 2 + pos.x, canvas.height / 2 - pos.y, dir.x, -dir.y);
-            }
+        // 每秒更新一次时间
+        setInterval(() => {
+            updateTogetherTime(config.togetherDate);
+        }, 1000);
 
-            // update and draw particles
-            particles.update(deltaTime);
-            particles.draw(context, image);
-        }
+        // 渲染时光轴
+        renderTimeline(config);
 
-        // handle (re-)sizing of the canvas
-        function onResize() {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
-        }
+        // 创建飘动的爱心
+        createFloatingHearts();
+        setInterval(createFloatingHearts, 10000);
 
-        window.onresize = onResize;
+        // 设置图片放大功能
+        setupImageModal();
 
-        // delay rendering bootstrap
-        setTimeout(function () {
-            onResize();
-            render();
-        }, 10);
-    })(document.getElementById('pinkboard'));</script>
-<!-- team -->
+        // 设置音乐控制
+        setupMusicControl();
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', main);
+</script>
 </body>
-</html>	
+</html>
