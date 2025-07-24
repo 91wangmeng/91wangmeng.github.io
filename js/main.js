@@ -1,5 +1,6 @@
 // 全局变量存储配置
 let appConfig = null;
+let mediaObserver = null;
 
 // 加载配置文件
 async function loadConfig() {
@@ -29,7 +30,7 @@ async function initOTPVerification() {
 }
 
 // 验证码验证
-document.getElementById('verifyButton').addEventListener('click', function() {
+document.getElementById('verifyButton').addEventListener('click', function () {
     const userInput = document.getElementById('otpInput').value;
     const errorMessage = document.getElementById('errorMessage');
     const successMessage = document.getElementById('successMessage');
@@ -54,7 +55,7 @@ document.getElementById('verifyButton').addEventListener('click', function() {
                 errorMessage.style.display = 'none';
                 successMessage.style.display = 'block';
                 // 延迟显示主要内容
-                setTimeout(function() {
+                setTimeout(function () {
                     document.getElementById('verificationOverlay').style.display = 'none';
                     document.getElementById('mainContent').style.display = 'block';
                     // 初始化主内容
@@ -75,7 +76,7 @@ document.getElementById('verifyButton').addEventListener('click', function() {
                 if (driftValid) {
                     errorMessage.style.display = 'none';
                     successMessage.style.display = 'block';
-                    setTimeout(function() {
+                    setTimeout(function () {
                         document.getElementById('verificationOverlay').style.display = 'none';
                         document.getElementById('mainContent').style.display = 'block';
                         initMainContent();
@@ -102,7 +103,7 @@ document.getElementById('verifyButton').addEventListener('click', function() {
 });
 
 // 回车键验证
-document.getElementById('otpInput').addEventListener('keypress', function(e) {
+document.getElementById('otpInput').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         document.getElementById('verifyButton').click();
     }
@@ -218,96 +219,76 @@ function setupMediaModal() {
     const modalVideo = document.getElementById('modalVideo');
     const closeBtn = document.querySelector('.close');
 
-    // 点击图片放大
-    document.addEventListener('click', function(e) {
+    // 点击图片或视频封面放大
+    document.addEventListener('click', function (e) {
         if (e.target.classList.contains('timeline-image')) {
+            // 显示图片
             modal.style.display = 'block';
             modalImg.src = e.target.src;
             modalImg.style.display = 'block';
             modalVideo.style.display = 'none';
             document.body.style.overflow = 'hidden';
         } else if (e.target.classList.contains('timeline-video')) {
-            modal.style.display = 'block';
-            modalVideo.src = e.target.querySelector('source').src; // 获取source标签的src属性
-            modalVideo.style.display = 'block';
-            modalImg.style.display = 'none';
-
-            // 尝试播放视频
-            const playPromise = modalVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.error("视频播放失败:", error);
-                    // 显示错误信息
-                    const errorDiv = document.createElement('div');
-                    errorDiv.textContent = '视频播放失败，请检查文件路径或格式';
-                    errorDiv.style.color = 'red';
-                    errorDiv.style.textAlign = 'center';
-                    errorDiv.style.padding = '10px';
-                    modalVideo.parentNode.insertBefore(errorDiv, modalVideo.nextSibling);
-                });
-            }
-
-            document.body.style.overflow = 'hidden';
-        } else if (e.target.classList.contains('play-button')) {
-            const video = e.target.previousElementSibling;
-            const source = video.querySelector('source');
-            if (source) {
+            // 点击视频本身 - 显示模态框中的视频并尝试播放
+            const videoElement = e.target;
+            const sourceElement = videoElement.querySelector('source');
+            if (sourceElement) {
                 modal.style.display = 'block';
-                modalVideo.src = source.src;
+                // 从 source 标签获取 src
+                modalVideo.src = sourceElement.src;
                 modalVideo.style.display = 'block';
                 modalImg.style.display = 'none';
+                document.body.style.overflow = 'hidden';
 
-                // 尝试播放视频
+                // 尝试播放，需要用户手势，这里可能失败，但点击播放按钮会再次尝试
+                // 这里不主动 play()，让模态框中的视频控件自己处理
+            }
+        } else if (e.target.classList.contains('play-button')) {
+            // 点击播放按钮 - 显示模态框中的视频并播放
+            e.preventDefault(); // 防止其他默认行为
+            const videoContainer = e.target.closest('.media-container');
+            const videoElement = videoContainer.querySelector('.timeline-video');
+            const sourceElement = videoElement.querySelector('source');
+
+            if (sourceElement) {
+                modal.style.display = 'block';
+                // 从 source 标签获取 src
+                modalVideo.src = sourceElement.src;
+                modalVideo.style.display = 'block';
+                modalImg.style.display = 'none';
+                document.body.style.overflow = 'hidden';
+
+                // 尝试播放视频 - 这次是在用户点击事件处理函数内，应该可以成功
                 const playPromise = modalVideo.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        console.error("视频播放失败:", error);
-                        // 显示错误信息
-                        const errorDiv = document.createElement('div');
-                        errorDiv.textContent = '视频播放失败，请检查文件路径或格式';
-                        errorDiv.style.color = 'red';
-                        errorDiv.style.textAlign = 'center';
-                        errorDiv.style.padding = '10px';
-                        modalVideo.parentNode.insertBefore(errorDiv, modalVideo.nextSibling);
+                        console.warn("视频自动播放被阻止（这可能正常）:", error);
+                        // 如果自动播放失败，用户可以点击模态框中的视频控件播放
                     });
                 }
-
-                document.body.style.overflow = 'hidden';
             }
         }
     });
 
     // 关闭模态框
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function () {
         modal.style.display = 'none';
         modalVideo.pause();
-        // 移除可能存在的错误信息
-        const errorDiv = modalVideo.parentNode.querySelector('div[style*="color: red"]');
-        if (errorDiv) errorDiv.remove();
+        modalVideo.src = ""; // 清空 src 以停止加载
         document.body.style.overflow = 'auto';
     };
 
     // 点击模态框背景关闭
-    modal.onclick = function(e) {
+    modal.onclick = function (e) {
         if (e.target === modal) {
-            modal.style.display = 'none';
-            modalVideo.pause();
-            // 移除可能存在的错误信息
-            const errorDiv = modalVideo.parentNode.querySelector('div[style*="color: red"]');
-            if (errorDiv) errorDiv.remove();
-            document.body.style.overflow = 'auto';
+            closeBtn.onclick();
         }
     };
 
     // ESC键关闭
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && modal.style.display === 'block') {
-            modal.style.display = 'none';
-            modalVideo.pause();
-            // 移除可能存在的错误信息
-            const errorDiv = modalVideo.parentNode.querySelector('div[style*="color: red"]');
-            if (errorDiv) errorDiv.remove();
-            document.body.style.overflow = 'auto';
+            closeBtn.onclick();
         }
     });
 }
@@ -317,7 +298,7 @@ function setupMusicControl() {
     const musicControl = document.getElementById('musicControl');
     const backgroundMusic = document.getElementById('backgroundMusic');
     let isPlaying = false;
-    musicControl.addEventListener('click', function() {
+    musicControl.addEventListener('click', function () {
         if (isPlaying) {
             backgroundMusic.pause();
             musicControl.textContent = '🎵';
@@ -352,26 +333,34 @@ function setupMusicControl() {
     });
 }
 
-// 创建时光轴项目
+// 创建时光轴项目 (修改以支持懒加载占位符)
 function createTimelineItem(milestone, index) {
     const item = document.createElement('div');
     item.className = 'timeline-item';
     let mediaHtml = '';
 
     if (milestone.image) {
-        mediaHtml = `<div class="media-container">
-            <img src="static/images/${milestone.image}" alt="${milestone.title}" class="timeline-image" onerror="this.style.display='none'">
+        // 为图片创建懒加载占位符
+        mediaHtml = `
+        <div class="media-container">
+            <!-- 使用 data-src 存储真实图片地址 -->
+            <img class="timeline-image lazy-media" data-src="static/images/${milestone.image}" alt="${milestone.title}">
+            <!-- 占位符/加载指示器 -->
+            <div class="media-placeholder">加载中...</div>
         </div>`;
     } else if (milestone.video) {
-        // 支持多种视频格式
-        const videoName = milestone.video; // 获取文件名（不含扩展名）
-        mediaHtml = `<div class="media-container">
-            <video class="timeline-video" muted preload="metadata">
-                <source src="static/video/${videoName}" type="video/mp4">
+        // 为视频创建懒加载占位符
+        mediaHtml = `
+        <div class="media-container">
+            <!-- 使用 data-src 存储真实视频地址 -->
+            <video class="timeline-video lazy-media" data-src="static/video/${milestone.video}" muted preload="none" playsinline>
+                <source src="" type="video/mp4"> <!-- src 留空，稍后填充 -->
                 您的浏览器不支持视频播放
             </video>
             <div class="video-overlay"></div>
-            <button class="play-button">▶</button>
+            <!-- 占位符/加载指示器 -->
+            <div class="media-placeholder">加载中...</div>
+            <button class="play-button" aria-label="播放视频">▶</button>
         </div>`;
     }
 
@@ -395,6 +384,96 @@ function renderTimeline(config) {
         const item = createTimelineItem(milestone, index);
         timeline.appendChild(item);
     });
+    // 渲染完成后，初始化懒加载观察器
+    initLazyLoading();
+}
+
+// --- 新增的懒加载功能 ---
+
+// 初始化 Intersection Observer
+function initLazyLoading() {
+    // 如果已经存在观察器，先断开连接
+    if (mediaObserver) {
+        mediaObserver.disconnect();
+    }
+
+    // 创建 Intersection Observer 实例
+    mediaObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            // 当目标元素进入视口时
+            if (entry.isIntersecting) {
+                const mediaElement = entry.target;
+                loadMedia(mediaElement);
+                // 加载后停止观察此元素
+                observer.unobserve(mediaElement);
+            }
+        });
+    }, {
+        // 配置观察器
+        rootMargin: '50px', // 提前50px开始加载
+        threshold: 0.01 // 只要有一小部分进入视口就触发
+    });
+
+    // 开始观察所有带有 lazy-media 类的元素
+    const lazyMediaElements = document.querySelectorAll('.lazy-media');
+    lazyMediaElements.forEach(element => {
+        mediaObserver.observe(element);
+    });
+}
+
+// 加载单个媒体元素（图片或视频）
+function loadMedia(mediaElement) {
+    const mediaContainer = mediaElement.closest('.media-container');
+    const placeholder = mediaContainer.querySelector('.media-placeholder');
+    const isImage = mediaElement.classList.contains('timeline-image');
+    const isVideo = mediaElement.classList.contains('timeline-video');
+    const src = mediaElement.dataset.src; // 从 data-src 获取真实地址
+
+    if (!src) {
+        console.error('媒体元素缺少 data-src 属性:', mediaElement);
+        if (placeholder) placeholder.textContent = '加载失败';
+        return;
+    }
+
+    if (isImage) {
+        // 处理图片加载
+        const img = new Image();
+        img.onload = function () {
+            mediaElement.src = src; // 设置真实 src
+            mediaElement.style.display = 'block'; // 显示图片
+            if (placeholder) placeholder.remove(); // 移除占位符
+        };
+        img.onerror = function () {
+            console.error('图片加载失败:', src);
+            if (placeholder) placeholder.textContent = '图片加载失败';
+        };
+        // 开始加载
+        img.src = src;
+
+    } else if (isVideo) {
+        // 处理视频加载
+        const sourceElement = mediaElement.querySelector('source');
+        if (sourceElement) {
+            sourceElement.src = src; // 设置真实的视频源
+
+            // 监听元数据加载完成事件，表示可以播放了
+            mediaElement.addEventListener('loadedmetadata', () => {
+                if (placeholder) placeholder.remove(); // 移除占位符
+                mediaElement.style.display = 'block'; // 显示视频
+            }, { once: true }); // 只执行一次
+
+            mediaElement.addEventListener('error', (e) => {
+                console.error('视频加载失败:', src, e);
+                if (placeholder) placeholder.textContent = '视频加载失败';
+            }, { once: true });
+
+            // 重新加载视频源
+            mediaElement.load();
+        } else {
+            console.error('视频元素缺少 source 子元素:', mediaElement);
+            if (placeholder) placeholder.textContent = '加载失败';
+        }
+    }
 }
 
 // 初始化主内容
@@ -411,7 +490,7 @@ function initMainContent() {
     // 创建飘动的爱心
     createFloatingHearts();
     setInterval(createFloatingHearts, 10000);
-    // 设置媒体放大功能
+    // 设置图片/视频放大功能
     setupMediaModal();
     // 设置音乐控制
     setupMusicControl();
@@ -420,6 +499,6 @@ function initMainContent() {
 }
 
 // 页面加载完成后初始化验证界面
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initOTPVerification();
 });
