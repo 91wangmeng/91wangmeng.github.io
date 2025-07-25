@@ -617,6 +617,10 @@ function loadMedia(mediaElement) {
 // 初始化主内容
 function initMainContent() {
     const config = appConfig || defaultConfig;
+    
+    // 根据配置加载主题
+    loadTheme(config.theme || '粉黛');
+    
     // 初始化在一起时间显示
     updateTogetherTime(config.togetherDate);
     // 每秒更新一次时间
@@ -648,6 +652,14 @@ function initMainContent() {
             sourceElement.type= 'audio/mpeg';
             backgroundMusic.load();
         }
+    }
+}
+
+// 加载主题CSS
+function loadTheme(themeName) {
+    const themeStylesheet = document.getElementById('themeStylesheet');
+    if (themeStylesheet) {
+        themeStylesheet.href = `css/themes/${themeName}.css`;
     }
 }
 
