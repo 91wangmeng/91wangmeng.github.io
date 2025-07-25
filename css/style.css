@@ -669,3 +669,7 @@ a:hover {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
 }
+
+canvas#live2dcanvas {
+    border: 0 !important;
+}
