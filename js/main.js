@@ -633,6 +633,22 @@ function initMainContent() {
     setupMusicControl();
     // 初始化Live2D
     initLive2D();
+    
+    // 设置背景图
+    if (config.backgroundImage) {
+        document.body.style.backgroundImage = `url('${config.backgroundImage}')`;
+    }
+    
+    // 设置背景音乐
+    if (config.backgroundMusic) {
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const sourceElement = backgroundMusic.querySelector('source');
+        if (sourceElement) {
+            sourceElement.src = config.backgroundMusic;
+            sourceElement.type= 'audio/mpeg';
+            backgroundMusic.load();
+        }
+    }
 }
 
 // 页面加载完成后初始化验证界面

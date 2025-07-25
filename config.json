@@ -1,6 +1,8 @@
 {
 	"otpSecret": "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
 	"togetherDate": "2018-03-24 00:00:00",
+	"backgroundImage": "static/images/bg.jpg",
+	"backgroundMusic": "static/music/bg.mp3",
 	"milestones": [
 		{
 			"date": "2018-03-24",
