@@ -68,7 +68,9 @@ body::before {
 .header {
     text-align: center;
     padding: 50px 20px;
-    background: var(--bg-overlay);
+    background: var(--bg-overlay) url('/static/images/card_bg.jpg');
+    background-size: cover;
+    background-position: center;
     border-radius: var(--border-radius-large);
     box-shadow: var(--shadow-medium);
     margin-bottom: 40px;
@@ -201,7 +203,9 @@ body::before {
 }
 
 .timeline-content {
-    background: var(--bg-overlay);
+    background: var(--bg-overlay) url('/static/images/card.jpg');
+    background-size: cover;
+    background-position: center;
     padding: 25px;
     border-radius: var(--border-radius-small);
     box-shadow: var(--shadow-light);
