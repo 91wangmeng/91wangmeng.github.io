@@ -133,26 +133,44 @@ function initLive2D() {
     });
 }
 
-// 创建飘动的爱心
-function createFloatingHearts() {
-    const heartCount = 20;
-    const container = document.body;
-    for (let i = 0; i < heartCount; i++) {
-        setTimeout(() => {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '❤';
-            // 随机位置
-            const startX = Math.random() * window.innerWidth;
-            heart.style.left = `${startX}px`;
-            heart.style.animationDelay = `${Math.random() * 5}s`;
-            container.appendChild(heart);
-            // 动画结束后移除
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
-        }, i * 300);
-    }
+// 创建随机飘落的爱心
+function createFallingHearts() {
+    const heart = document.createElement('div');
+    heart.className = 'falling-heart';
+    heart.innerHTML = '❤';
+    
+    // 随机水平位置
+    const startX = Math.random() * window.innerWidth;
+    heart.style.left = `${startX}px`;
+    
+    // 随机大小
+    const size = Math.random() * 20 + 10; // 10px 到 30px
+    heart.style.fontSize = `${size}px`;
+    
+    // 随机动画时长
+    const duration = Math.random() * 5 + 5; // 5s 到 10s
+    heart.style.animationDuration = `${duration}s`;
+    
+    // 随机透明度
+    const opacity = Math.random() * 0.5 + 0.3; // 0.3 到 0.8
+    heart.style.opacity = opacity;
+    
+    document.body.appendChild(heart);
+    
+    // 动画结束后移除元素
+    setTimeout(() => {
+        heart.remove();
+    }, duration * 1000);
+}
+
+// 开始飘落爱心动画
+function startFallingHearts() {
+    // 每隔300-800毫秒创建一个新爱心
+    const interval = Math.random() * 500 + 300;
+    setTimeout(() => {
+        createFallingHearts();
+        startFallingHearts(); // 递归调用，持续创建
+    }, interval);
 }
 
 // 默认配置（如果无法加载外部配置文件）
@@ -491,9 +509,8 @@ function initMainContent() {
     }, 1000);
     // 渲染时光轴
     renderTimeline(config);
-    // 创建飘动的爱心
-    createFloatingHearts();
-    setInterval(createFloatingHearts, 10000);
+    // 启动飘落爱心动画
+    startFallingHearts();
     // 设置图片/视频放大功能
     setupMediaModal();
     // 设置音乐控制

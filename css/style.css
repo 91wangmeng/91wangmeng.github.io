@@ -608,6 +608,25 @@ body::before {
     }
 }
 
+/* Falling hearts animation */
+.falling-heart {
+    position: fixed;
+    top: -50px;
+    font-size: 20px;
+    color: var(--primary-color);
+    z-index: 9999;
+    pointer-events: none;
+    animation: falling linear forwards;
+    opacity: 0.8;
+}
+
+@keyframes falling {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 /* Loading animation */
 .loading {
     display: inline-block;
