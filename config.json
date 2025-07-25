@@ -44,11 +44,23 @@
 			"description": "单膝跪地时颤抖的戒指盒，映出你惊喜的泪光",
 			"video": "Propose marriage.mp4"
 		},
+        {
+            "date": "2020-09-06",
+            "title": "第一次看X show",
+            "description": "帐篷里的魔法时刻：空中飞人划出爱的弧线，小丑将欢笑塞满我们的行囊",
+            "image": "x show.jpg"
+        },
+		{
+			"date": "2020-10-24",
+			"title": "一起骑行西湖",
+			"description": "秋日暖阳下，我们沿着西湖骑行，享受彼此陪伴的美好时光",
+			"image": "bike.jpg"
+		},
 		{
 			"date": "2020-12-18",
 			"title": "领结婚证",
 			"description": "红色封皮见证誓言，从此刻以夫妻之名共度余生",
-			"image": "marry.jpg"
+			"image": ["marry_1.jpg","marry_2.jpg"]
 		},
 		{
 			"date": "2023-07-19",
