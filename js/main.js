@@ -351,13 +351,26 @@ function setupMusicControl() {
     });
 }
 
-// 创建时光轴项目 (修改以支持懒加载占位符)
+// 创建时光轴项目 (修改以支持懒加载占位符和多张图片)
 function createTimelineItem(milestone, index) {
     const item = document.createElement('div');
     item.className = 'timeline-item';
     let mediaHtml = '';
 
-    if (milestone.image) {
+    // 处理多张图片
+    if (milestone.image && Array.isArray(milestone.image) && milestone.image.length > 0) {
+        // 为每张图片创建懒加载占位符
+        mediaHtml = milestone.image.map(image => `
+            <div class="media-container">
+                <!-- 使用 data-src 存储真实图片地址 -->
+                <img class="timeline-image lazy-media" data-src="static/images/${image}" alt="${milestone.title}">
+                <!-- 占位符/加载指示器 -->
+                <div class="media-placeholder">加载中...</div>
+            </div>
+        `).join('\n');
+    } 
+    // 处理单张图片（向后兼容）
+    else if (milestone.image) {
         // 为图片创建懒加载占位符
         mediaHtml = `
         <div class="media-container">
@@ -366,7 +379,9 @@ function createTimelineItem(milestone, index) {
             <!-- 占位符/加载指示器 -->
             <div class="media-placeholder">加载中...</div>
         </div>`;
-    } else if (milestone.video) {
+    } 
+    // 处理视频
+    else if (milestone.video) {
         // 为视频创建懒加载占位符
         mediaHtml = `
         <div class="media-container">
