@@ -431,7 +431,8 @@ function loadMedia(mediaElement) {
 
     if (!src) {
         console.error('媒体元素缺少 data-src 属性:', mediaElement);
-        if (placeholder) placeholder.textContent = '加载失败';
+        // 隐藏整个媒体容器
+        if (mediaContainer) mediaContainer.style.display = 'none';
         return;
     }
 
@@ -445,7 +446,8 @@ function loadMedia(mediaElement) {
         };
         img.onerror = function () {
             console.error('图片加载失败:', src);
-            if (placeholder) placeholder.textContent = '图片加载失败';
+            // 隐藏整个媒体容器
+            if (mediaContainer) mediaContainer.style.display = 'none';
         };
         // 开始加载
         img.src = src;
@@ -464,14 +466,16 @@ function loadMedia(mediaElement) {
 
             mediaElement.addEventListener('error', (e) => {
                 console.error('视频加载失败:', src, e);
-                if (placeholder) placeholder.textContent = '视频加载失败';
+                // 隐藏整个媒体容器
+                if (mediaContainer) mediaContainer.style.display = 'none';
             }, { once: true });
 
             // 重新加载视频源
             mediaElement.load();
         } else {
             console.error('视频元素缺少 source 子元素:', mediaElement);
-            if (placeholder) placeholder.textContent = '加载失败';
+            // 隐藏整个媒体容器
+            if (mediaContainer) mediaContainer.style.display = 'none';
         }
     }
 }
