@@ -18,6 +18,8 @@
     --border-radius-small: 10px;
     --border-radius-large: 20px;
     --transition-speed: 0.3s;
+    /* 添加传统古典花纹边框 */
+    --ornamental-border: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 5, 80 20 Q 95 50, 80 80 Q 50 95, 20 80 Q 5 50, 20 20' stroke='%231a6840' stroke-width='2' fill='none'/%3E%3C/svg%3E");
 }
 
 body {
@@ -33,6 +35,8 @@ body {
     background-blend-mode: overlay;
     color: var(--text-dark);
     line-height: 1.6;
+    /* 添加传统水墨画风格的装饰图案 */
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 5, 80 20 Q 95 50, 80 80 Q 50 95, 20 80 Q 5 50, 20 20 Z' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='150' cy='50' r='15' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Cpath d='M120 120 Q 150 115, 180 120 Q 195 150, 180 180 Q 150 195, 120 180 Q 105 150, 120 120 Z' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
 }
 
 /* 国风装饰元素 */
@@ -48,6 +52,40 @@ body {
     z-index: -1;
 }
 
+/* 添加传统水墨画元素 */
+.corner-decoration {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    z-index: -1;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.corner-decoration.top-left {
+    top: 20px;
+    left: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 10, 80 20 Q 100 50, 80 80 Q 50 100, 20 80 Q 10 50, 20 20 Z' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+}
+
+.corner-decoration.top-right {
+    top: 20px;
+    right: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='75' cy='75' r='50' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='75' cy='75' r='30' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+}
+
+.corner-decoration.bottom-left {
+    bottom: 20px;
+    left: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30 Q 75 15, 120 30 Q 135 75, 120 120 Q 75 135, 30 120 Q 15 75, 30 30 Z' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+}
+
+.corner-decoration.bottom-right {
+    bottom: 20px;
+    right: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 Q 100 40, 130 50 Q 140 100, 130 130 Q 100 140, 50 130 Q 40 100, 50 50 Z' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+}
+
 body::before {
     content: '';
     position: absolute;
@@ -58,6 +96,8 @@ body::before {
     background: var(--bg-overlay);
     z-index: -1;
     backdrop-filter: blur(5px);
+    /* 添加传统窗棂图案 */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L100 100 M100 0 L0 100 M50 0 L50 100 M0 50 L100 50' stroke='rgba(26, 104, 64, 0.05)' stroke-width='1'/%3E%3C/svg%3E");
 }
 
 .container {
@@ -82,6 +122,11 @@ body::before {
     border-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 5, 80 20 Q 95 50, 80 80 Q 50 95, 20 80 Q 5 50, 20 20' stroke='%231a6840' stroke-width='2' fill='none'/%3E%3C/svg%3E") 30 stretch;
     border-width: 10px;
     border-style: solid;
+    /* 添加传统花纹背景 */
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 Q 100 30, 150 50 Q 170 100, 150 150 Q 100 170, 50 150 Q 30 100, 50 50 Z' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3Ccircle cx='100' cy='100' r='30' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3C/svg%3E"), var(--bg-overlay) url('/static/images/card_bg.jpg');
+    background-blend-mode: overlay;
+    /* 添加传统印章元素 */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='45' stroke='%231a6840' stroke-width='2' fill='none'/%3E%3Ctext x='50' y='55' font-family='Zhi Mang Xing' font-size='40' text-anchor='middle' fill='%231a6840'%3E印%3C/text%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 Q 100 30, 150 50 Q 170 100, 150 150 Q 100 170, 50 150 Q 30 100, 50 50 Z' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3Ccircle cx='100' cy='100' r='30' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3C/svg%3E"), var(--bg-overlay) url('/static/images/card_bg.jpg');
 }
 
 .header::before {
@@ -94,6 +139,8 @@ body::before {
     background: radial-gradient(circle, rgba(26, 104, 64, 0.1) 0%, transparent 70%);
     z-index: -1;
     animation: rotate 15s linear infinite;
+    /* 添加传统印章纹理 */
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='100' cy='100' r='90' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3Ccircle cx='100' cy='100' r='70' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3C/svg%3E"), radial-gradient(circle, rgba(26, 104, 64, 0.1) 0%, transparent 70%);
 }
 
 @keyframes rotate {
@@ -112,6 +159,20 @@ body::before {
     margin-bottom: 15px;
     font-family: 'Dancing Script', cursive;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    /* 添加书法印章装饰 */
+    position: relative;
+    display: inline-block;
+}
+
+.together-time::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--primary-color), transparent);
 }
 
 .together-label {
@@ -138,6 +199,28 @@ body::before {
     border-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 5 Q 10 2, 15 5 Q 18 10, 15 15 Q 10 18, 5 15 Q 2 10, 5 5' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E") 10 stretch;
     border-width: 3px;
     border-style: solid;
+    /* 添加传统云纹装饰 */
+    position: relative;
+    overflow: hidden;
+}
+
+.time-display::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 15 Q 10 10, 15 15 Q 20 20, 25 15' stroke='rgba(26, 104, 64, 0.2)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.3;
+    z-index: -1;
+    animation: clouds-move 20s linear infinite;
+}
+
+@keyframes clouds-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
 }
 
 .timeline {
@@ -159,6 +242,9 @@ body::before {
     /* 添加传统云纹装饰 */
     background-image: url("data:image/svg+xml,%3Csvg width='6' height='20' viewBox='0 0 6 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 0 Q 6 5, 3 10 Q 0 15, 3 20' stroke='white' stroke-width='1' fill='none'/%3E%3C/svg%3E");
     background-repeat: repeat-y;
+    /* 添加古典花纹装饰 */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='30' viewBox='0 0 6 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 0 Q 6 10, 3 20 Q 0 30, 3 30' stroke='white' stroke-width='1' fill='none'/%3E%3C/svg%3E"), linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
 }
 
 .timeline-item {
@@ -192,6 +278,8 @@ body::before {
     /* 添加传统花纹装饰 */
     background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%231a6840'/%3E%3C/svg%3E");
     background-size: cover;
+    /* 添加传统印章纹理 */
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='12' cy='12' r='6' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%231a6840'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%231a6840'/%3E%3C/svg%3E");
 }
 
 .timeline-marker:hover {
@@ -200,6 +288,8 @@ body::before {
     /* 悬停时显示传统花纹 */
     background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' stroke='white' stroke-width='1' fill='none'/%3E%3Ccircle cx='12' cy='12' r='6' fill='white'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%231a6840'/%3E%3C/svg%3E");
     background-size: cover;
+    /* 悬停时添加传统印章纹理 */
+    box-shadow: 0 0 15px rgba(26, 104, 64, 0.5);
 }
 
 .timeline-content {
@@ -215,6 +305,10 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.5);
     position: relative;
     overflow: hidden;
+    /* 添加古典边框装饰 */
+    border-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 5 Q 10 2, 15 5 Q 18 10, 15 15 Q 10 18, 5 15 Q 2 10, 5 5' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E") 10 stretch;
+    border-width: 3px;
+    border-style: solid;
 }
 
 .timeline-content:hover {
@@ -258,6 +352,8 @@ body::before {
     margin-bottom: 15px;
     position: relative;
     padding-bottom: 10px;
+    /* 添加传统书法印章效果 */
+    font-family: 'Zhi Mang Xing', cursive;
 }
 
 .timeline-title::after {
@@ -269,6 +365,10 @@ body::before {
     height: 3px;
     background: var(--primary-color);
     border-radius: 3px;
+    /* 添加古典花纹装饰 */
+    background-image: url("data:image/svg+xml,%3Csvg width='50' height='3' viewBox='0 0 50 3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1.5 Q 10 0, 20 1.5 Q 30 3, 40 1.5 Q 50 0, 50 1.5' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .timeline-description {
@@ -497,6 +597,9 @@ body::before {
     max-height: 90%;
     border-radius: var(--border-radius-small);
     box-shadow: var(--shadow-medium);
+    /* 添加传统边框装饰 */
+    border: 10px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 5, 80 20 Q 95 50, 80 80 Q 50 95, 20 80 Q 5 50, 20 20' stroke='%231a6840' stroke-width='2' fill='none'/%3E%3C/svg%3E") 30 stretch;
 }
 
 .modal-video {
@@ -516,6 +619,7 @@ body::before {
     transition: var(--transition-speed);
     /* 添加传统中国结元素 */
     font-family: 'Zhi Mang Xing', cursive;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .close:hover {
@@ -523,6 +627,10 @@ body::before {
     transform: scale(1.1);
     /* 悬停时添加传统花纹 */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    /* 添加中国结纹理 */
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 5 Q 30 10, 35 20 Q 30 30, 20 35 Q 10 30, 5 20 Q 10 10, 20 5 Z' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 /* Music Control */
@@ -546,6 +654,10 @@ body::before {
     /* 添加传统云纹装饰 */
     background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='25' cy='25' r='20' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3Ccircle cx='25' cy='25' r='15' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E");
     background-size: cover;
+    /* 添加古典边框装饰 */
+    border-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 25 5, 40 10 Q 45 25, 40 40 Q 25 45, 10 40 Q 5 25, 10 10' stroke='%231a6840' stroke-width='1' fill='none'/%3E%3C/svg%3E") 15 stretch;
+    border-width: 3px;
+    border-style: solid;
 }
 
 .music-control:hover {
@@ -586,6 +698,9 @@ body::before {
     border-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 5, 80 20 Q 95 50, 80 80 Q 50 95, 20 80 Q 5 50, 20 20' stroke='%231a6840' stroke-width='2' fill='none'/%3E%3C/svg%3E") 30 stretch;
     border-width: 10px;
     border-style: solid;
+    /* 添加传统花纹背景 */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q 50 10, 80 20 Q 90 50, 80 80 Q 50 90, 20 80 Q 10 50, 20 20 Z' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3C/svg%3E"), var(--bg-overlay);
+    background-blend-mode: overlay;
 }
 
 .verification-box::before {
@@ -644,11 +759,30 @@ body::before {
     font-weight: 600;
     width: 100%;
     box-shadow: var(--shadow-light);
+    /* 添加传统印章风格 */
+    position: relative;
+    overflow: hidden;
 }
 
 .verify-button:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow: var(--shadow-medium);
+    /* 悬停时添加印章纹理 */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='45' stroke='rgba(255,255,255,0.3)' stroke-width='1' fill='none'/%3E%3Ccircle cx='50' cy='50' r='35' stroke='rgba(255,255,255,0.3)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+}
+
+.verify-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='15' font-family='Zhi Mang Xing' font-size='16' text-anchor='middle' fill='rgba(255,255,255,0.1)'%3E印%3C/text%3E%3C/svg%3E") repeat;
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 .verify-button:disabled {
@@ -754,6 +888,44 @@ body::before {
     }
 }
 
+/* 添加传统书法文字元素 */
+.calligraphy-text {
+    position: absolute;
+    font-family: 'Zhi Mang Xing', cursive;
+    font-size: 24px;
+    color: rgba(26, 104, 64, 0.3);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+    animation: float-text 20s linear infinite;
+}
+
+.calligraphy-text.top {
+    top: 50px;
+    right: 50px;
+    font-size: 32px;
+}
+
+.calligraphy-text.bottom {
+    bottom: 50px;
+    left: 50px;
+    font-size: 28px;
+}
+
+@keyframes float-text {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(10deg);
+        opacity: 0;
+    }
+}
+
 /* Falling hearts animation */
 .falling-heart {
     position: fixed;
@@ -769,6 +941,50 @@ body::before {
 @keyframes falling {
     to {
         transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Falling petals animation */
+.falling-petal {
+    position: fixed;
+    top: -50px;
+    font-size: 20px;
+    color: var(--primary-color);
+    z-index: 9998;
+    pointer-events: none;
+    animation: falling-petal linear forwards;
+    opacity: 0.6;
+}
+
+@keyframes falling-petal {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.petal {
+    position: absolute;
+    font-size: 24px;
+    color: var(--primary-color);
+    opacity: 0.7;
+    z-index: -1;
+    pointer-events: none;
+    animation: float-petal 15s linear infinite;
+}
+
+@keyframes float-petal {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
         opacity: 0;
     }
 }
@@ -819,20 +1035,29 @@ a:hover {
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 12px;
 }
 
 ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.05);
+    /* 添加传统云纹装饰 */
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='100' viewBox='0 0 12 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 0 Q 12 25, 6 50 Q 0 75, 6 100' stroke='rgba(26, 104, 64, 0.1)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat-y;
 }
 
 ::-webkit-scrollbar-thumb {
     background: var(--primary-color);
-    border-radius: 4px;
+    border-radius: 6px;
+    /* 添加传统花纹装饰 */
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='50' viewBox='0 0 12 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 0 Q 12 10, 6 20 Q 0 30, 6 40 Q 12 50, 6 50' stroke='rgba(255, 255, 255, 0.5)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat-y;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
+    /* 悬停时添加传统印章纹理 */
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='50' viewBox='0 0 12 50' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='10' r='3' fill='rgba(255, 255, 255, 0.5)'/%3E%3Ccircle cx='6' cy='30' r='3' fill='rgba(255, 255, 255, 0.5)'/%3E%3Ccircle cx='6' cy='50' r='3' fill='rgba(255, 255, 255, 0.5)'/%3E%3C/svg%3E");
+    background-repeat: repeat-y;
 }
 
 canvas#live2dcanvas {
