@@ -11,7 +11,7 @@
 			"date": "2018-03-29",
 			"title": "第一次抱抱",
 			"description": "第一次将你拥入怀中，感受到彼此加速的心跳和温暖的体温",
-			"image": "hug.png"
+			"images": ["hug.png", "kiss.jpg"]
 		},
 		{
 			"date": "2018-04-01",
@@ -20,17 +20,17 @@
 			"image": "kiss.jpg"
 		},
       {
-        			"date": "2018-04-06",
-        			"title": "第一次共同旅行",
-        			"description": "在雪花纷飞的冬日，我们签下此生最重要的契约，成为法定夫妻",
-        			"image": [ "travel_1.jpg", "travel_2.jpg"]
-        		},
+				"date": "2018-04-06",
+				"title": "第一次共同旅行",
+				"description": "在雪花纷飞的冬日，我们签下此生最重要的契约，成为法定夫妻",
+				"images": ["travel_1.jpg", "travel_2.jpg"]
+			},
     {
-    			"date": "2019-03-23",
-    			"title": "第一次听演唱会",
-    			"description": "在雪花纷飞的冬日，我们签下此生最重要的契约，成为法定夫妻",
-    			"video": "PConcert.png"
-    		},
+			"date": "2019-03-23",
+			"title": "第一次听演唱会",
+			"description": "在雪花纷飞的冬日，我们签下此生最重要的契约，成为法定夫妻",
+			"image": "Concert.png"
+		},
 		{
 			"date": "2020-09-06",
 			"title": "求婚",

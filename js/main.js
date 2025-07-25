@@ -236,15 +236,106 @@ function setupMediaModal() {
     const modalImg = document.getElementById('modalImage');
     const modalVideo = document.getElementById('modalVideo');
     const closeBtn = document.querySelector('.close');
+    
+    // 用于存储当前图片堆叠的相关信息
+    let currentStackImages = [];
+    let currentImageIndex = 0;
+    
+    // 创建左右切换按钮
+    const prevButton = document.createElement('button');
+    prevButton.className = 'modal-nav prev';
+    prevButton.innerHTML = '&#8249;'; // 左箭头
+    prevButton.style.display = 'none';
+    
+    const nextButton = document.createElement('button');
+    nextButton.className = 'modal-nav next';
+    nextButton.innerHTML = '&#8250;'; // 右箭头
+    nextButton.style.display = 'none';
+    
+    // 创建图片计数器
+    const counter = document.createElement('div');
+    counter.className = 'modal-counter';
+    counter.style.display = 'none';
+    
+    // 将按钮和计数器添加到模态框中
+    modal.appendChild(prevButton);
+    modal.appendChild(nextButton);
+    modal.appendChild(counter);
+
+    // 切换到指定索引的图片
+    function showImage(index) {
+        if (currentStackImages.length > 0 && index >= 0 && index < currentStackImages.length) {
+            currentImageIndex = index;
+            modalImg.src = currentStackImages[index];
+            modalImg.style.display = 'block';
+            counter.textContent = `${index + 1} / ${currentStackImages.length}`;
+        }
+    }
+
+    // 显示前一张图片
+    prevButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (currentStackImages.length > 0) {
+            let newIndex = currentImageIndex - 1;
+            if (newIndex < 0) newIndex = currentStackImages.length - 1;
+            showImage(newIndex);
+        }
+    });
+
+    // 显示后一张图片
+    nextButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (currentStackImages.length > 0) {
+            let newIndex = currentImageIndex + 1;
+            if (newIndex >= currentStackImages.length) newIndex = 0;
+            showImage(newIndex);
+        }
+    });
+
+    // 键盘事件处理
+    function handleKeyboardEvent(e) {
+        if (modal.style.display === 'block') {
+            if (e.key === 'ArrowLeft') {
+                prevButton.click();
+            } else if (e.key === 'ArrowRight') {
+                nextButton.click();
+            } else if (e.key === 'Escape') {
+                closeBtn.onclick();
+            }
+        }
+    }
+
+    // 添加键盘事件监听器
+    document.addEventListener('keydown', handleKeyboardEvent);
 
     // 点击图片或视频封面放大
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('timeline-image')) {
-            // 显示图片
+        // 处理堆叠图片的点击
+        if (e.target.classList.contains('stack-image')) {
+            const imageStack = e.target.closest('.image-stack');
+            const stackImages = imageStack.querySelectorAll('.stack-image');
+            
+            // 获取所有图片的真实src
+            currentStackImages = Array.from(stackImages).map(img => img.dataset.src.replace('static/images/', 'static/images/'));
+            currentImageIndex = parseInt(e.target.dataset.index) || 0;
+            
+            // 显示模态框和切换按钮
+            modal.style.display = 'block';
+            showImage(currentImageIndex);
+            modalVideo.style.display = 'none';
+            prevButton.style.display = 'flex';
+            nextButton.style.display = 'flex';
+            counter.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        } else if (e.target.classList.contains('timeline-image')) {
+            // 显示单张图片
             modal.style.display = 'block';
             modalImg.src = e.target.src;
             modalImg.style.display = 'block';
             modalVideo.style.display = 'none';
+            prevButton.style.display = 'none';
+            nextButton.style.display = 'none';
+            counter.style.display = 'none';
             document.body.style.overflow = 'hidden';
         } else if (e.target.classList.contains('timeline-video')) {
             // 点击视频本身 - 显示模态框中的视频并尝试播放
@@ -256,6 +347,9 @@ function setupMediaModal() {
                 modalVideo.src = sourceElement.src;
                 modalVideo.style.display = 'block';
                 modalImg.style.display = 'none';
+                prevButton.style.display = 'none';
+                nextButton.style.display = 'none';
+                counter.style.display = 'none';
                 document.body.style.overflow = 'hidden';
 
                 // 尝试播放，需要用户手势，这里可能失败，但点击播放按钮会再次尝试
@@ -274,6 +368,9 @@ function setupMediaModal() {
                 modalVideo.src = sourceElement.src;
                 modalVideo.style.display = 'block';
                 modalImg.style.display = 'none';
+                prevButton.style.display = 'none';
+                nextButton.style.display = 'none';
+                counter.style.display = 'none';
                 document.body.style.overflow = 'hidden';
 
                 // 尝试播放视频 - 这次是在用户点击事件处理函数内，应该可以成功
@@ -293,6 +390,11 @@ function setupMediaModal() {
         modal.style.display = 'none';
         modalVideo.pause();
         modalVideo.src = ""; // 清空 src 以停止加载
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+        counter.style.display = 'none';
+        currentStackImages = [];
+        currentImageIndex = 0;
         document.body.style.overflow = 'auto';
     };
 
@@ -302,13 +404,6 @@ function setupMediaModal() {
             closeBtn.onclick();
         }
     };
-
-    // ESC键关闭
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.style.display === 'block') {
-            closeBtn.onclick();
-        }
-    });
 }
 
 // 音乐控制
@@ -359,15 +454,20 @@ function createTimelineItem(milestone, index) {
 
     // 处理多张图片
     if (milestone.image && Array.isArray(milestone.image) && milestone.image.length > 0) {
-        // 为每张图片创建懒加载占位符
-        mediaHtml = milestone.image.map(image => `
-            <div class="media-container">
-                <!-- 使用 data-src 存储真实图片地址 -->
-                <img class="timeline-image lazy-media" data-src="static/images/${image}" alt="${milestone.title}">
+        // 为多张图片创建堆叠效果
+        const imagesHtml = milestone.image.map((image, idx) => `
+            <!-- 使用 data-src 存储真实图片地址 -->
+            <img class="stack-image lazy-media" data-src="static/images/${image}" alt="${milestone.title} ${idx + 1}" data-index="${idx}">
+        `).join('\n');
+        
+        mediaHtml = `
+        <div class="media-container">
+            <div class="image-stack">
+                ${imagesHtml}
                 <!-- 占位符/加载指示器 -->
                 <div class="media-placeholder">加载中...</div>
             </div>
-        `).join('\n');
+        </div>`;
     } 
     // 处理单张图片（向后兼容）
     else if (milestone.image) {
@@ -459,6 +559,7 @@ function loadMedia(mediaElement) {
     const mediaContainer = mediaElement.closest('.media-container');
     const placeholder = mediaContainer.querySelector('.media-placeholder');
     const isImage = mediaElement.classList.contains('timeline-image');
+    const isStackImage = mediaElement.classList.contains('stack-image');
     const isVideo = mediaElement.classList.contains('timeline-video');
     const src = mediaElement.dataset.src; // 从 data-src 获取真实地址
 
@@ -469,7 +570,7 @@ function loadMedia(mediaElement) {
         return;
     }
 
-    if (isImage) {
+    if (isImage || isStackImage) {
         // 处理图片加载
         const img = new Image();
         img.onload = function () {
